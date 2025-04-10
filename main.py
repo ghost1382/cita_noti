@@ -1,7 +1,7 @@
 import os
 import time
 from dotenv import load_dotenv
-from telegram import Bot
+from telegram 
 from cita_checker import check_appointment
 from keep_alive import keep_alive
 
