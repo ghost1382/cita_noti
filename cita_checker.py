@@ -15,7 +15,12 @@ def check_appointment():
     driver = uc.Chrome(options=options, use_subprocess=True)
 
 try:
-    driver.get("https://example.com")
+    driver.get("https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus")
     print("✅ Page loaded.")
+    html = driver.page_source
+    return "No hay citas" not in html
 except Exception as e:
-    print("❌ Error loading page:", e)
+    print("❌ Error during check:", e)
+    return False
+finally:
+    driver.quit()
