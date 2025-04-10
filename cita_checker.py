@@ -20,7 +20,8 @@ def check_appointment():
         time.sleep(3)  # wait for page to load
         print("✅ Page loaded.")
         html = driver.page_source
-        return "No hay citas" not in html
+      return True  # Force simulate available cita
+
     except Exception as e:
         print("❌ Error checking appointment:", e)
         return False
