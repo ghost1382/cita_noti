@@ -1,57 +1,63 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
+import chromedriver_autoinstaller
 import time
-print("👀 Running check_appointment()")
+
 
 def check_appointment():
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
+    chromedriver_autoinstaller.install()
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
 
-    driver = webdriver.Chrome(options=chrome_options)
-
+    driver = webdriver.Chrome(options=options)
     try:
-        # Step 1: Open main page
-        driver.get("https://sede.administracionespublicas.gob.es/icpplus/index.html")
-        time.sleep(1)
-
-        # Step 2: Click "Acceder al procedimiento"
-        acceder_btn = driver.find_element(By.LINK_TEXT, "Acceder al procedimiento")
-        acceder_btn.click()
-        time.sleep(1)
-
-        # Step 3: Select province
-        provincia = driver.find_element(By.NAME, "provincias")
-        provincia.send_keys("TARRAGONA")
-        driver.find_element(By.NAME, "btnAceptar").click()
-        time.sleep(1)
-
-        # Step 4: Select oficina and trámite
-        oficina = driver.find_element(By.NAME, "oficinas")
-        oficina.send_keys("TORTOSA")
-        tramite = driver.find_element(By.NAME, "tramites")
-        tramite.send_keys("POLICIA – TOMA DE HUELLAS")
-        driver.find_element(By.NAME, "btnAceptar").click()
-        time.sleep(1)
-
-        # Step 5: Click on "Entrar sin certificado"
-        entrar_btn = driver.find_element(By.XPATH, "//input[@value='Entrar']")
-        entrar_btn.click()
+        print("🌐 Opening page...")
+        driver.get(
+            "https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus"
+        )
         time.sleep(2)
 
-        # Step 6: Check for cita availability message
-        page_source = driver.page_source.lower()
+        print("🔘 Clicking 'Acceder al procedimiento'")
+        acceder_btn = driver.find_element(
+            "xpath", "//a[contains(text(),'Acceder al procedimiento')]")
+        acceder_btn.click()
+        time.sleep(2)
 
-        if "no hay citas disponibles" in page_source:
-            return False  # No citas
+        print("📍 Selecting province: Tarragona")
+        provincia = driver.find_element("name", "provincias")
+        provincia.send_keys("TARRAGONA")
+        driver.find_element("name", "aceptar").click()
+        time.sleep(2)
+
+        print("🏢 Selecting office: TORTOSA + trámite: HUELLAS")
+        oficina = driver.find_element("name", "oficinas")
+        oficina.send_keys("TORTOSA")
+        tramite = driver.find_element("name", "tramites")
+        tramite.send_keys("POLICIA - TOMA DE HUELLAS (EXPEDICION DE TARJETA)")
+        driver.find_element("name", "aceptar").click()
+        time.sleep(2)
+
+        print("🔓 Clicking 'Sin certificado'")
+        sin_cert_btn = driver.find_element(
+            "xpath", "//a[contains(text(), 'Continuar sin certificado')]")
+        sin_cert_btn.click()
+        time.sleep(2)
+
+        print("📄 Getting HTML...")
+        html = driver.page_source
+        print("✅ HTML loaded. Checking for text...")
+
+        if "no hay citas disponibles" in html.lower():
+            print("🚫 No appointments found.")
+            return False
         else:
-            return True   # Citas available!
+            print("✅ Appointment available!")
+            return True
 
     except Exception as e:
-        print("⚠️ Error during cita check:", e)
+        print("❌ Error in checker:", e)
         return False
-
     finally:
         driver.quit()
