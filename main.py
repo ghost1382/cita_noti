@@ -3,7 +3,7 @@ from telegram.ext import CommandHandler, Updater
 import time
 
 # Set up the bot with your API token
-TOKEN = 'YOUR_TELEGRAM_BOT_API_TOKEN'  # Replace with your actual Telegram Bot API token
+TOKEN = '7282237386:AAHFresU1mMc7kMlakjFjG-SkkxW7alV-Yk'  # Replace with your actual Telegram Bot API token
 bot = Bot(token=TOKEN)
 
 # Function for /start command
