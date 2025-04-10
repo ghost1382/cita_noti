@@ -14,7 +14,8 @@ def check_appointment():
 
     driver = uc.Chrome(options=options, use_subprocess=True)
 
-    try:
-        driver.get("https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus")
-        html = driver.page_source
-        print("✅ Page loaded.")
+try:
+    driver.get("https://example.com")
+    print("✅ Page loaded.")
+except Exception as e:
+    print("❌ Error loading page:", e)
