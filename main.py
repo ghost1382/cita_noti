@@ -1,34 +1,32 @@
-import os
+from telegram import Bot, Update
+from telegram.ext import CommandHandler, Updater
 import time
-from dotenv import load_dotenv
-from telegram import Bot
 
-from cita_checker import check_appointment
-from keep_alive import keep_alive  # If using Flask to keep app alive
+# Set up the bot with your API token
+TOKEN = 'YOUR_TELEGRAM_BOT_API_TOKEN'
+bot = Bot(token=TOKEN)
 
-load_dotenv()
+# Function for /start command
+def start(update: Update, context):
+    """Handle the /start command."""
+    user = update.message.from_user
+    update.message.reply_text(f"Hello {user.first_name}! I am your appointment checker bot. Use /help to see available commands.")
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
+# Function for /time command
+def time_command(update: Update, context):
+    """Handle the /time command."""
+    current_time = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())
+    update.message.reply_text(f"Current server time is: {current_time}")
 
-bot = Bot(token=BOT_TOKEN)
-keep_alive()  # Starts a Flask web server (required for uptime bots like UptimeRobot)
+# Function for /delete command
+def delete_previous(update: Update, context):
+    """Handle the /delete command."""
+    user = update.message.from_user
+    update.message.reply_text(f"Deleted previous messages for {user.first_name}.")
 
-# 🚨 Notify on startup
-bot.send_message(chat_id=CHAT_ID, text="✅ Bot started! Checking for citas...")
+    # To actually delete the message, you can use the `delete_message` method
+    # For example, if you want to delete the last message:
+    bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id - 1)
 
-def notify(message):
-    bot.send_message(chat_id=CHAT_ID, text=message)
-
-# 💡 Check every 30 seconds for test
-while True:
-    try:
-        print("🟡 Checking for appointment...")
-        if check_appointment():
-            notify("🚨 ¡CITA DISPONIBLE PARA HUELLAS EN TORTOSA!")
-        else:
-            print("⏳ No appointment available.")
-    except Exception as e:
-        print("❌ Error during check:", e)
-
-    time.sleep(30)
+# Function for /greeting command
+def greeting
