@@ -34,6 +34,6 @@ while True:
     except Exception as e:
         print("❌ Error:", e)
 
-    time.sleep(600)  # Wait 10 minutes
+    time.sleep(30)  # Wait 10 minutes
 
 # 🔁
