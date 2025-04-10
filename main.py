@@ -24,6 +24,8 @@ bot.send_message(chat_id=CHAT_ID,
 
 def notify(message):
                  bot.send_message(chat_id=CHAT_ID, text=message)
+print("📄 Checking page content for 'no hay citas'")
+print(driver.page_source[:500])  # Print first 500 chars of HTML
 
 while True:
     try:
