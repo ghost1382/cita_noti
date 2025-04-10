@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import time
+print("👀 Running check_appointment()")
 
 def check_appointment():
     chrome_options = Options()
