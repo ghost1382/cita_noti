@@ -25,5 +25,15 @@ bot.send_message(chat_id=CHAT_ID,
 def notify(message):
                  bot.send_message(chat_id=CHAT_ID, text=message)
 
+while True:
+    try:
+        if check_appointment():
+            notify("🚨 ¡CITA DISPONIBLE PARA HUELLAS EN TORTOSA!")
+        else:
+            print("⏳ No appointment available.")
+    except Exception as e:
+        print("❌ Error:", e)
+
+    time.sleep(600)  # Wait 10 minutes
 
 # 🔁
