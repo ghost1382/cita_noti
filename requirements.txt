@@ -1,5 +1,5 @@
-flask
-python-telegram-bot
+Flask
+python-dotenv
+telegram
 selenium
 chromedriver-autoinstaller
-python-dotenv
