@@ -11,3 +11,4 @@ requests
 beautifulsoup4
 flask
 python-dotenv
+chromedriver-autoinstaller
