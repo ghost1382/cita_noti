@@ -3,3 +3,6 @@ python-dotenv
 python-telegram-bot==13.15
 selenium
 undetected-chromedriver==3.5.5
+undetected-chromedriver
+chromedriver-autoinstaller
+selenium
